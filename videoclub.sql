@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-11-2016 a las 22:01:37
+-- Tiempo de generación: 28-11-2016 a las 17:25:24
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -32,17 +32,19 @@ CREATE TABLE `clientes` (
   `Ap_Paterno` varchar(50) NOT NULL,
   `Ap_Materno` varchar(50) DEFAULT NULL,
   `membresia` int(11) NOT NULL,
-  `usuario` varchar(10) NOT NULL,
-  `contraseña` varchar(25) NOT NULL
+  `usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`cod_cte`, `Nombre`, `Ap_Paterno`, `Ap_Materno`, `membresia`, `usuario`, `contraseña`) VALUES
-(1, 'julio', 'castro', 'beltran', 1, 'julio94', '123456'),
-(2, 'julio', 'castro', 'beltran', 1, 'julio10', '199425');
+INSERT INTO `clientes` (`cod_cte`, `Nombre`, `Ap_Paterno`, `Ap_Materno`, `membresia`, `usuario`) VALUES
+(3, 'irma', 'gomez', '', 1, 5),
+(4, 'Julio César', 'Castro', 'Beltrán', 1, 6),
+(6, 'julio', 'castro', '', 1, 8),
+(7, 'Irma', 'Gomez', 'Beltran', 1, 9),
+(8, 'Daniel', 'Chavez', 'Madrid', 2, 10);
 
 -- --------------------------------------------------------
 
@@ -76,6 +78,22 @@ CREATE TABLE `rentas` (
   `Total` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `rentas`
+--
+
+INSERT INTO `rentas` (`id`, `fecha`, `cod_cte`, `Total`) VALUES
+(5, '2016-11-26 00:00:00', 4, '210'),
+(6, '2016-11-26 00:00:00', 4, '35'),
+(7, '2016-11-26 00:00:00', 4, '350'),
+(8, '2016-11-26 00:00:00', 4, '105'),
+(9, '2016-11-26 23:25:45', 4, '35'),
+(10, '2016-11-26 23:26:54', 4, '350'),
+(11, '2016-11-27 11:10:11', 4, '350'),
+(12, '2016-11-27 22:56:48', 4, '35'),
+(13, '2016-11-28 09:10:17', 4, '350'),
+(14, '2016-11-28 09:14:46', 7, '105');
+
 -- --------------------------------------------------------
 
 --
@@ -88,6 +106,26 @@ CREATE TABLE `rentas_videos` (
   `cantidad` int(11) NOT NULL,
   `total` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `rentas_videos`
+--
+
+INSERT INTO `rentas_videos` (`id`, `video`, `cantidad`, `total`) VALUES
+(5, 1, 1, '35'),
+(5, 8, 2, '70'),
+(5, 15, 3, '105'),
+(6, 1, 1, '35'),
+(7, 14, 10, '350'),
+(8, 6, 1, '35'),
+(8, 7, 2, '70'),
+(9, 9, 1, '35'),
+(10, 10, 10, '350'),
+(11, 22, 10, '350'),
+(12, 4, 1, '35'),
+(13, 1, 10, '350'),
+(14, 6, 2, '70'),
+(14, 12, 1, '35');
 
 -- --------------------------------------------------------
 
@@ -108,6 +146,30 @@ INSERT INTO `tipos_video` (`id`, `Nombre`) VALUES
 (1, 'Infantil'),
 (2, 'Adolescentes'),
 (3, 'Adultos');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `Usuario` varchar(20) NOT NULL,
+  `clave` varchar(25) NOT NULL,
+  `tipo` char(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `Usuario`, `clave`, `tipo`) VALUES
+(5, 'irma01', '123456', 'A'),
+(6, 'julio94', '123456', 'A'),
+(8, 'julio22', '123456', 'A'),
+(9, 'MariaIrma', 'genial', 'A'),
+(10, 'Juandaniel', 'teescupo1', 'A');
 
 -- --------------------------------------------------------
 
@@ -208,6 +270,13 @@ ALTER TABLE `tipos_video`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Usuario` (`Usuario`);
+
+--
 -- Indices de la tabla `videos`
 --
 ALTER TABLE `videos`
@@ -221,7 +290,7 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `cod_cte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_cte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `membresias`
 --
@@ -231,12 +300,17 @@ ALTER TABLE `membresias`
 -- AUTO_INCREMENT de la tabla `rentas`
 --
 ALTER TABLE `rentas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT de la tabla `tipos_video`
 --
 ALTER TABLE `tipos_video`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `videos`
 --

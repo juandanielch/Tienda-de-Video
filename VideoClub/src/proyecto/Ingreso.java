@@ -11,7 +11,8 @@ public class Ingreso extends JFrame implements ActionListener
 	private JTextField txtUsuario,txtContraseña;
 	private JLabel e1,e2;
 	private Connection conexion;
-		
+	private int usuario;
+	
 	public Ingreso(Connection conexion)
 	{
 		super("Ingresar");
@@ -33,14 +34,15 @@ public class Ingreso extends JFrame implements ActionListener
 		e2=new JLabel("Contraseña");
 		txtUsuario=new JTextField();
 		txtContraseña=new JTextField();
-		btnRegresar=new Boton("Atrás");
+		btnRegresar=new Boton("Cancelar");
 		btnIngresar=new Boton("Ingresar");
 		e1.setBounds(50,50,100,20);
 		e2.setBounds(50,100,100,20);
 		txtUsuario.setBounds(150,45,200,30);
 		txtContraseña.setBounds(150,95,200,30);
-		btnRegresar.setBounds(80,150,120,40);
-		btnIngresar.setBounds(230,150,120,40);
+		btnIngresar.setBounds(80,150,120,40);
+		btnRegresar.setBounds(230,150,120,40);
+		
 		add(e1);
 		add(e2);
 		add(txtUsuario);
@@ -85,25 +87,23 @@ public class Ingreso extends JFrame implements ActionListener
 			boolean hayFilas=false;
 			try 
 			{
-				PreparedStatement cmd=conexion.prepareStatement("select usuario from clientes where usuario = ? and contraseña = ?");
+				PreparedStatement cmd=conexion.prepareStatement("select id,usuario from usuarios where usuario = ? and clave = ?");
 				cmd.setString(1, txtUsuario.getText());
 				cmd.setString(2, txtContraseña.getText());
 				rs=cmd.executeQuery();
 				hayFilas=rs.first();
-				
+				if (!hayFilas)
+				{
+					JOptionPane.showMessageDialog(null, "Usuario y/o Contraseña incorrecto(s)", "VideoClub", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				usuario=rs.getInt("id");
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			if (!hayFilas)
-			{
-				JOptionPane.showMessageDialog(null, "Usuario y/o Contraseña incorrecto(s)", "VideoClub", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			
 			dispose();
-			new Menu(conexion);
+			new MenuPrincipal(conexion,usuario);
 		}
 	}
 
